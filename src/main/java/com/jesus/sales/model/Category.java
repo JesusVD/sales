@@ -16,12 +16,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategory;
 
-    @Column( length = 50, nullable = false) //name="category_name"
+    @Column(length = 50, nullable = false) //name="category_name"
     private String name;
 
     @Column(length = 150, nullable = false)
     private String description;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private boolean enabled;
 }

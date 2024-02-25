@@ -17,7 +17,7 @@ public class User {
     private Integer idUser;
 
     @ManyToOne
-    @JoinColumn(name = "id_role" , nullable = false , foreignKey = @ForeignKey(name = "fk_user_role"))
+    @JoinColumn(name = "id_role", nullable = false, foreignKey = @ForeignKey(name = "fk_user_role"))
     private Role role;
 
     @Column(length = 50, nullable = false)

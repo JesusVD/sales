@@ -23,7 +23,7 @@ public class IngressDetail {
     @Column(nullable = false)
     private short quantity;
 
-    @Column(columnDefinition = "decimal(6,2)" , nullable = false)
+    @Column(columnDefinition = "decimal(6,2)", nullable = false)
     private short cost;
 }
 

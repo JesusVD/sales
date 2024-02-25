@@ -12,10 +12,10 @@ import java.io.Serializable;
 public class IngressDetailPK implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name="id_ingress"  ,nullable = false)
+    @JoinColumn(name = "id_ingress", nullable = false)
     private Ingress ingress;
     @ManyToOne
-    @JoinColumn(name="id_product"  ,nullable = false)
+    @JoinColumn(name = "id_product", nullable = false)
     private Product product;
 
 }
