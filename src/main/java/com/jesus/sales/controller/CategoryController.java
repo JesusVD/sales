@@ -25,7 +25,9 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> readAll() throws Exception {
-        List<CategoryDTO> list = service.readAll().stream().map(cat -> mapper.map(cat, CategoryDTO.class)).collect(Collectors.toList());
+        List<CategoryDTO> list = service.readAll().stream()
+                .map(cat -> mapper.map(cat, CategoryDTO.class))
+                .collect(Collectors.toList());
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -39,15 +41,15 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody Category category) throws Exception {
-        Category obj = service.save(category);
-        return new ResponseEntity<>(obj, HttpStatus.CREATED);
+    public ResponseEntity<CategoryDTO> create(@RequestBody CategoryDTO dto) throws Exception {
+        Category obj = service.save(mapper.map(dto, Category.class));
+        return new ResponseEntity<>(mapper.map(obj, CategoryDTO.class), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Category> update(@RequestBody Category category) throws Exception {
-        Category obj = service.update(category);
-        return new ResponseEntity<>(obj, HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> update(@RequestBody CategoryDTO dto) throws Exception {
+        Category obj = service.update(mapper.map(dto, Category.class));
+        return new ResponseEntity<>(mapper.map(obj, CategoryDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
