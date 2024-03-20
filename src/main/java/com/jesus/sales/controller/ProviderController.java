@@ -1,9 +1,9 @@
 package com.jesus.sales.controller;
 
-import com.jesus.sales.dto.CategoryDTO;
+import com.jesus.sales.dto.ProviderDTO;
 import com.jesus.sales.exception.ModelNotFoundException;
-import com.jesus.sales.model.Category;
-import com.jesus.sales.service.ICategoryService;
+import com.jesus.sales.model.Provider;
+import com.jesus.sales.service.IProviderService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +16,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController {
+@RequestMapping("/providers")
+public class ProviderController {
 
     @Autowired
-    private ICategoryService service;
+    private IProviderService service;
 
     @Autowired
-    @Qualifier("categoryMapper")
+    @Qualifier("providerMapper")
     private ModelMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> readAll() throws Exception {
-        List<CategoryDTO> list = service.readAll().stream()
-                .map(cat -> mapper.map(cat, CategoryDTO.class))
+    public ResponseEntity<List<ProviderDTO>> readAll() throws Exception {
+        List<ProviderDTO> list = service.readAll().stream()
+                .map(prov -> mapper.map(prov, ProviderDTO.class))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> readById(@PathVariable("id") Integer id) throws Exception {
-        CategoryDTO obj = mapper.map(service.readById(id), CategoryDTO.class);
+    public ResponseEntity<ProviderDTO> readById(@PathVariable("id") Integer id) throws Exception {
+        ProviderDTO obj = mapper.map(service.readById(id), ProviderDTO.class);
         if (obj == null) {
             throw new ModelNotFoundException("ID NOT FOUND" + id);
         }
@@ -44,20 +44,20 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryDTO dto) throws Exception {
-        Category obj = service.save(mapper.map(dto, Category.class));
-        return new ResponseEntity<>(mapper.map(obj, CategoryDTO.class), HttpStatus.CREATED);
+    public ResponseEntity<ProviderDTO> create(@Valid @RequestBody ProviderDTO dto) throws Exception {
+        Provider obj = service.save(mapper.map(dto, Provider.class));
+        return new ResponseEntity<>(mapper.map(obj, ProviderDTO.class), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<CategoryDTO> update(@Valid @RequestBody CategoryDTO dto) throws Exception {
-        Category obj = service.update(mapper.map(dto, Category.class));
-        return new ResponseEntity<>(mapper.map(obj, CategoryDTO.class), HttpStatus.OK);
+    public ResponseEntity<ProviderDTO> update(@Valid @RequestBody ProviderDTO dto) throws Exception {
+        Provider obj = service.update(mapper.map(dto, Provider.class));
+        return new ResponseEntity<>(mapper.map(obj, ProviderDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception {
-        Category obj = service.readById(id);
+        Provider obj = service.readById(id);
         if (obj == null) {
             throw new ModelNotFoundException("ID NOT FOUND" + id);
         }

@@ -7,25 +7,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryDTO {
+public class ProductDTO {
 
-    private Integer id;
+    private Integer idProduct;
+
+    @NotNull
+    @Min(value = 1)
+    private Integer idCategory;
 
     @NotNull
     @NotEmpty
     @Size(min = 3, max = 50)
-    private String nameCategory;
+    private String name;
 
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 150)
-    private String descriptionCategory;
+    @Size(min = 3, max = 50)
+    private String description;
+
+    @Min(value = 1)
+    @Max(value = 9999)
+    private double price;
 
     @NotNull
-    private boolean enabledCategory;
+    private boolean enabled;
 }

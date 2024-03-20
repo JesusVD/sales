@@ -20,7 +20,7 @@ public class Provider {
     private String name;
 
     @Column(length = 150, nullable = false)
-    private String adress;
+    private String address;
 
     @Column(nullable = false)
     private boolean enabled;

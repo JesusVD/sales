@@ -23,7 +23,7 @@ public class Client {
     private String lastName;
 
     @Column(length = 10, nullable = false, unique = true)
-    private String carID;
+    private String cardID;
 
     @Column(length = 10, nullable = false)
     private String phoneNumber;
