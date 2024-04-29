@@ -1,6 +1,7 @@
 package com.jesus.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,11 +26,14 @@ public class UserDTO {
     @NotNull
     @NotEmpty
     @Size(min = 3, max = 50)
+    //@JsonProperty(value = "user_name")
     private String username;
 
     @NotNull
     @NotEmpty
     @Size(min = 10, max = 60)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonIgnore
     private String password;
 
     @NotNull

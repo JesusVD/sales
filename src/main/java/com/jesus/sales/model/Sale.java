@@ -36,7 +36,7 @@ public class Sale {
     @Column(nullable = false, columnDefinition = "decimal(6,2)")
     private double tax;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SaleDetail> details;
 
 }
