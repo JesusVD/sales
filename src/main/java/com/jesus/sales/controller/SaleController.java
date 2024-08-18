@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -70,4 +71,30 @@ public class SaleController {
     public ResponseEntity<List<ProcedureDTO>> getSaleResume(){
         return new ResponseEntity<>(service.callProcedure(),HttpStatus.OK);
     }
+
+    @GetMapping("/mostexpensive")
+    public ResponseEntity<SaleDTO> getSaleMostExpensive(){
+        SaleDTO dto = mapper.map(service.getSaleMostExpensive(), SaleDTO.class);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
+    @GetMapping("/bestseller")
+    public ResponseEntity<String> getBestSellerPerson(){
+        String user = service.getBestSellerPerson();
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+
+    @GetMapping("/sellercount")
+    public ResponseEntity<Map<String, Long>> getSalesCountBySeller(){
+        Map<String, Long> map = service.getSalesCountBySeller();
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    @GetMapping("/bestproduct")
+    public ResponseEntity<Map<String, Double>> getMostSellerProduct(){
+        Map<String, Double> map = service.getMostSellerProduct();
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
 }
