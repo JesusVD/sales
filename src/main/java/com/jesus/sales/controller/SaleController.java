@@ -1,5 +1,6 @@
 package com.jesus.sales.controller;
 
+import com.jesus.sales.dto.ProcedureDTO;
 import com.jesus.sales.dto.SaleDTO;
 import com.jesus.sales.exception.ModelNotFoundException;
 import com.jesus.sales.model.Sale;
@@ -63,5 +64,10 @@ public class SaleController {
         }
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/resume")
+    public ResponseEntity<List<ProcedureDTO>> getSaleResume(){
+        return new ResponseEntity<>(service.callProcedure(),HttpStatus.OK);
     }
 }

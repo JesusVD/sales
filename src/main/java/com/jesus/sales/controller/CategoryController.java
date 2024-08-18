@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +65,31 @@ public class CategoryController {
         }
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/find/name/{name}")
+    public ResponseEntity<List<CategoryDTO>> findByName(@PathVariable("name") String name) {
+        List<CategoryDTO> categorylist = service.findByName(name).stream().map(cat -> mapper.map(cat, CategoryDTO.class)).toList();
+        return new ResponseEntity<>(categorylist, HttpStatus.OK);
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<Category>> findPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Category> pageResponse = service.findPage(pageRequest);
+
+        return new ResponseEntity<>(pageResponse, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/order")
+    public ResponseEntity<List<Category>> findAllOrder(
+            @RequestParam(name = "param", defaultValue = "ASC") String param
+    ) {
+        return new ResponseEntity<>(service.findAllOrder(param), HttpStatus.OK);
     }
 }
