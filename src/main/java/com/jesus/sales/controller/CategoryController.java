@@ -53,6 +53,13 @@ public class CategoryController {
 
     @PutMapping
     public ResponseEntity<CategoryDTO> update(@Valid @RequestBody CategoryDTO dto) throws Exception {
+
+        Category category = service.readById(dto.getId());
+
+        if (category == null) {
+            throw new ModelNotFoundException("CATEGORY NOT FOUND" + category);
+        }
+
         Category obj = service.update(mapper.map(dto, Category.class));
         return new ResponseEntity<>(mapper.map(obj, CategoryDTO.class), HttpStatus.OK);
     }
