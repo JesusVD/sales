@@ -132,5 +132,18 @@ public class CategoryControllerTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ModelNotFoundException));
     }
 
+    @Test
+    public void deleteTest() throws Exception {
+
+        int ID_CATEGORY = 1;
+
+        Mockito.when(service.readById(any())).thenReturn(CATEGORY_1);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/categories/" + ID_CATEGORY)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNoContent());
+    }
+
 
 }
