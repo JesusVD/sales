@@ -26,8 +26,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(CategoryController.class)
-public class CategoryControllerTest {
+    @WebMvcTest(CategoryController.class)
+    public class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -145,5 +145,17 @@ public class CategoryControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void deleteErrorTest() throws Exception {
 
+        int ID_CATEGORY = 999;
+
+        Mockito.when(service.readById(any())).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/categories/" + ID_CATEGORY)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ModelNotFoundException));
+    }
 }

@@ -1,5 +1,6 @@
 package com.jesus.sales.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -31,7 +32,7 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ErrorResponse> handleSQLExcepcion(SQLException ex, WebRequest req){
+    public ResponseEntity<ErrorResponse> handleSQLException(SQLException ex, WebRequest req){
         ErrorResponse res = new ErrorResponse(LocalDateTime.now(), ex.getMessage(), req.getDescription(false));
         return new ResponseEntity<>(res, HttpStatus.CONFLICT);
     }
