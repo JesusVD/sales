@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,8 +28,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    @WebMvcTest(CategoryController.class)
-    public class CategoryControllerTest {
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(CategoryController.class)
+public class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,13 +45,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Autowired
     private ObjectMapper objectMapper;
 
-    Category CATEGORY_1 = new Category(1,"TVES","Television", true);
-    Category CATEGORY_2 = new Category(2,"Radio","Radio", true);
-    Category CATEGORY_3 = new Category(3,"PCES","Computadora", true);
+    Category CATEGORY_1 = new Category(1, "TVES", "Television", true);
+    Category CATEGORY_2 = new Category(2, "Radio", "Radio", true);
+    Category CATEGORY_3 = new Category(3, "PCES", "Computadora", true);
 
-    CategoryDTO CATEGORYDTO_1 = new CategoryDTO(1,"TVES","Television", true);
-    CategoryDTO CATEGORYDTO_2 = new CategoryDTO(2,"Radio","Radio", true);
-    CategoryDTO CATEGORYDTO_3 = new CategoryDTO(3,"PCES","Computadora", true);
+    CategoryDTO CATEGORYDTO_1 = new CategoryDTO(1, "TVES", "Television", true);
+    CategoryDTO CATEGORYDTO_2 = new CategoryDTO(2, "Radio", "Radio", true);
+    CategoryDTO CATEGORYDTO_3 = new CategoryDTO(3, "PCES", "Computadora", true);
 
     @Test
     public void readAllTest() throws Exception {
@@ -60,7 +64,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Mockito.when(modelMapper.map(CATEGORY_3, CategoryDTO.class)).thenReturn(CATEGORYDTO_3);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/categories")
-                .content(MediaType.APPLICATION_JSON_VALUE))
+                        .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[1].nameCategory", is("Radio")));
@@ -94,7 +98,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.nameCategory",is("Radio")))
+                .andExpect(jsonPath("$.nameCategory", is("Radio")))
                 .andExpect(jsonPath("$.enabledCategory", is(true)));
     }
 
@@ -112,7 +116,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nameCategory",is("Radio")))
+                .andExpect(jsonPath("$.nameCategory", is("Radio")))
                 .andExpect(jsonPath("$.enabledCategory", is(true)));
     }
 

@@ -3,6 +3,7 @@ package com.jesus.sales.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -10,13 +11,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+//@Profile(value={"development", "production"})
 @Configuration //indica configuracion spring, contiene beans
 @EnableWebSecurity //habilita seguridad en la aplicacion web , spring security se encargara de gestionar esta, authenticacion, autheorizacion y roles.
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -68,7 +69,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/login").permitAll() //.hasAuthority("ADMIN")
-                //.requestMatchers("/categories/**").permitAll()
+                .requestMatchers("/categories/**").permitAll()
                 .requestMatchers("/rest/**").permitAll()
                 .requestMatchers("/v3/**").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
