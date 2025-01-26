@@ -41,7 +41,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 //extraigo solo la cadena ,excluyo la palabra "bearer "
                 jwtToken = tokenHeader.substring(7);
                 //seteo el nombre de usuario sacando esa info del token
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                try{
+                    username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                }catch (Exception ex) { //ExpiredJwtException
+                    request.setAttribute("exception", ex.getMessage());
+                }
             }
         }
 

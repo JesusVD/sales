@@ -1,6 +1,9 @@
 package com.jesus.sales.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jesus.sales.dto.CategoryDTO;
+import com.jesus.sales.security.JwtRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -95,6 +98,38 @@ public class RestTemplateController {
         uriVariables.put("idCategory", id);
 
         restTemplate.delete(url, uriVariables);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/test8/{id}")
+    public ResponseEntity<Void> test8(@PathVariable("id") Integer id) throws JsonProcessingException {
+        //Generando el token
+        final String AUTHENTICATION_URL = "http://localhost:8080/login";
+
+        JwtRequest userRequest = new JwtRequest("mito", "123");
+        String userRequestJSON = new ObjectMapper().writeValueAsString(userRequest);
+
+        HttpHeaders authHeaders = new HttpHeaders();
+        authHeaders.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        authHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<String> authEntity = new HttpEntity<>(userRequestJSON, authHeaders);
+
+        // Enviado el token para pedir datos
+        ResponseEntity<String> authenticationResponse = restTemplate.exchange(AUTHENTICATION_URL, HttpMethod.POST, authEntity, String.class);
+        String token = "Bearer " + authenticationResponse.getBody().split(":")[1].replace("\"", "").replace("}", "");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.set("Authorization", token);
+
+        HttpEntity<String> jwtEntity = new HttpEntity<>(headers);
+
+        String url = "http://localhost:8080/categories/{idCategory}";
+
+        Map<String, Integer> uriVariables = new HashMap<>();
+        uriVariables.put("idCategory", id);
+
+        restTemplate.exchange(url, HttpMethod.DELETE, jwtEntity, String.class, uriVariables);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
